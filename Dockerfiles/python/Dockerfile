@@ -1,9 +1,9 @@
-FROM codercom/enterprise-base:ubuntu
+FROM ubuntu:22.04
 
 USER root
 ARG DEBIAN_FRONTEND=noninteractive
 
-# OS deps + Python tooling
+# OS deps + Python tooling (+ add sudo here)
 RUN set -eux \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -13,35 +13,39 @@ RUN set -eux \
          git \
          curl \
          ca-certificates \
+         sudo \
     && rm -rf /var/lib/apt/lists/*
 
-# Make "python" & "pip" available (alias to python3/pip3)
-# (This is optional; many folks just call python3/pip3 explicitly.)
+# Make "python" & "pip" available
 RUN set -eux \
     && update-alternatives --install /usr/bin/python python /usr/bin/python3 1 \
     && update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
 
-# Create a virtual environment and use it by default
+# Create venv
 RUN python3 -m venv /opt/venvs/base
 ENV VIRTUAL_ENV=/opt/venvs/base
 ENV PATH="/opt/venvs/base/bin:${PATH}"
 
-# Upgrade pip INSIDE the venv and install packages there
+# Upgrade pip and base packages
 RUN set -eux \
     && pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir \
-         wheel \
-         setuptools \
-         ipython \
-         requests
+    && pip install --no-cache-dir wheel setuptools ipython requests
 
-# Switch back to non-root "coder" user from base image
-USER coder
-WORKDIR /home/coder
+# Create non-root user 'dev' and grant passwordless sudo
+RUN set -eux \
+    && useradd -m -s /bin/bash dev \
+    && echo "dev ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/99_dev \
+    && chmod 0440 /etc/sudoers.d/99_dev
 
-# Optional: a default workspace directory
-RUN mkdir -p /home/coder/workspace
-WORKDIR /home/coder/workspace
+# Prepare workspace and permissions
+RUN set -eux \
+    && mkdir -p /home/dev/workspace \
+    && chown -R dev:dev /home/dev \
+    && chown -R dev:dev /opt/venvs/base
 
-# Simple runtime check
-CMD ["/bin/bash", "-lc", "python --version && pip --version && echo 'Python (venv) ready for Coder' && sleep infinity"]
+# Switch to dev
+USER dev
+WORKDIR /home/dev/workspace
+
+# Runtime check
+CMD ["/bin/bash", "-lc", "python --version && pip --version && echo 'Python (venv) ready' && sleep infinity"]
