@@ -115,5 +115,5 @@ output "namespace" {
 
 output "pod_name" {
   value = local.pod_name
-  description = "Actual Pod name including the random 6-char suffix."
+  description = "Pod name"
 }
