@@ -1,0 +1,51 @@
+# Use the latest Ubuntu as the base image
+FROM ubuntu:latest
+
+# Set environment variables to avoid interactive prompts during installation
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Update and install dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    wget \
+    git \
+    python3 \
+    python3-pip \
+    sudo \
+    ca-certificates \
+    gnupg \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install code-server (VS Code in the browser)
+RUN curl -fsSL https://code-server.dev/install.sh | sh
+
+#Copy the extension installer script
+COPY install-vscode-extentions.sh /usr/local/bin/install-vscode-extentions.sh
+RUN chmod +x /usr/local/bin/install-vscode-extentions.sh
+
+# Create a non-root user for running code-server
+RUN useradd -m wcd && \
+    echo "wcd ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+USER wcd
+WORKDIR /home/wcd
+
+# Run the watcher in background when container starts
+#CMD ["/bin/bash", "-c", "/usr/local/bin/install-vscode-extentions.sh"]
+# Create code-server configuration directory
+#RUN mkdir -p ~/.config/code-server
+
+# Install useful VS Code extensions for Python and linting
+#RUN code-server --install-extension ms-python.python && \
+#    code-server --install-extension ms-python.black-formatter
+
+# Expose the default code-server port
+#EXPOSE 8080
+
+# Set default password (you can override this with an environment variable)
+#ENV PASSWORD=""
+#ENV AUTH="none"
+
+# Start code-server
+#CMD ["code-server", "--bind-addr", "0.0.0.0:8080", "--auth", "none"]
+#CMD ["tail", "-f", "/dev/null"]

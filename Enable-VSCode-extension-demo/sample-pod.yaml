@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: code-server-python
+  namespace: coder
+spec:
+  containers:
+  - name: code-server-python
+    image: ghcr.io/yuvraj-bhupati/code-server-python-extension:v3
+    command: ["tail", "-f", "/dev/null"]
+    lifecycle:
+        postStart:
+          exec:
+            command: ["/bin/bash", "-c", "/usr/local/bin/install-vscode-extentions.sh > /tmp/vscode-setup.log 2>&1 &"]
+  imagePullSecrets:
+  - name: ghcr-registry-secret
