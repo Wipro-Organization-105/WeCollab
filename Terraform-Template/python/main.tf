@@ -15,12 +15,6 @@ provider "kubernetes" {
   config_path = "~/.kube/config"
 }
 
-
-variable "namespace" {
-  type    = string
-  default = "dev-workspaces"
-}
-
 variable "workspace_name" {
   type    = string
   default = "workspace"
@@ -52,6 +46,9 @@ locals {
   pod_name = "${local.safe_base}-${random_string.suffix.result}"
 }
 
+data "kubernetes_namespace" "dev" {
+  metadata { name = "python-workspaces" }
+}
 
 resource "kubernetes_namespace" "ns" {
   metadata { name = var.namespace }
@@ -61,7 +58,7 @@ resource "kubernetes_namespace" "ns" {
 resource "kubernetes_pod" "workspace" {
   metadata {
     name      = local.pod_name
-    namespace = var.namespace
+    namespace = data.kubernetes_namespace.dev.metadata[0].name
     labels = {
       app = local.pod_name
     }
