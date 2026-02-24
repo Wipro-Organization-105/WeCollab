@@ -1,0 +1,25 @@
+{
+  "users": [
+    {
+      "username": "sshashwat",
+      "groups": ["Wipro-Group-A", "Wipro-Group-B", "Wipro-Admins"]
+    },
+    {
+      "username": "kksinghwipro04",
+      "groups": ["Wipro-Group-A", "Wipro-Group-B", "Wipro-Admins"]
+    },
+    {
+      "username": "wipPratik",
+      "groups": ["Wipro-Group-A"]
+    },
+	{
+      "username": "yuvraj-bhupati",
+      "groups": ["Wipro-Group-B"]
+    },
+	{
+      "username": "dipankar-maitra-arch",
+      "groups": ["Wipro-Group-A", "Wipro-Group-B", "Wipro-Admins"]
+    }
+	
+  ]
+}
