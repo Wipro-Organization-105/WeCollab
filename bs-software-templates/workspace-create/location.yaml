@@ -1,8 +1,0 @@
-apiVersion: backstage.io/v1alpha1
-kind: Location
-metadata:
-  name: wecollab-workspace-templates
-spec:
-  type: url
-  targets:
-    - ./workspace-template.yaml
