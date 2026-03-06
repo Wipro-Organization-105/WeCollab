@@ -127,14 +127,14 @@ spec:
           # name: ${{ parameters.name }}
           # image: ${{ parameters.image }}
 
-    - id: fetch-plain
+    - id: fetch-templates
       name: Fetch Workspace Template
-      action: fetch:plain
+      action: fetch:template
       input:
         url: https://github.com/Wipro-Organization-105/WeCollab/tree/main/Terraform-Template/python-workspace-template
-        values:
-          imageName: ${{ parameters.imageName }}
-          dockerfile: ${{ parameters.dockerfile }}
+        values:        
+           imageName: ${{ parameters.imageName }}
+           dockerfile: ${{ parameters.dockerfile }}
 
     # This step publishes the contents of the working directory to GitHub.
     # If you or your organization prefer another default branch name over 'main'
