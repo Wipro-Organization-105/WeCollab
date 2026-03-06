@@ -2,7 +2,7 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: java-workspace-template
-  title: Create Java Template
+  title: Java Workspace Template
   description: Workflow to generate terraform to setup infra required for Developement Worksapce.
 spec:
   owner: user:guest
