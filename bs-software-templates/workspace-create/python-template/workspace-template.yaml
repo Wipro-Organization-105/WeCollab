@@ -54,7 +54,7 @@ spec:
       name: Fetch Base
       action: fetch:template
       input:
-        url: https://github.com/Wipro-Organization-105/WeCollab/blob/main/bs-software-templates/workspace-create/content/test
+        url: https://github.com/Wipro-Organization-105/WeCollab/blob/main/bs-software-templates/workspace-create/python-template
         values:
           name: ${{ parameters.name }}
           image: ${{ parameters.image }}
