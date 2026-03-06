@@ -32,13 +32,13 @@ jobs:
       # --- Build image with Podman ---
       - name: Podman build
         run: |
-          IMAGE="ghcr.io/kksinghwipro04/${{ inputs.imageName }}"
+          IMAGE="ghcr.io/kksinghwipro04/${{ values.imageName }}"
           podman build -t "$IMAGE" -f Dockerfile .
 
       
       - name: Podman push
         run: |
-          IMAGE="ghcr.io/kksinghwipro04/${{ inputs.imageName }}"
+          IMAGE="ghcr.io/kksinghwipro04/${{ values.imageName }}"
           podman push "$IMAGE"
 
       
