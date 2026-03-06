@@ -6,7 +6,7 @@
   },
   "groupTemplateMap": {
     "Wipro-Group-A": {
-      "path": ["python/main.tf"],
+      "path": ["python/main.tf", "python-workspace-template/.workspace-config/main.tf"],
       "branch": "main",
       "description": "Default Python Terraform template"
     },
