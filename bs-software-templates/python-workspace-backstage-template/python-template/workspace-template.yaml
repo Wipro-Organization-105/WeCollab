@@ -1,0 +1,177 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: workspace-template
+  title: Create Template
+  description: Workflow to generate terraform to setup infra required for Developement Worksapce.
+spec:
+  owner: user:guest
+  type: service
+
+  # These parameters are used to generate the input form in the frontend, and are
+  # used to gather input data for the execution of the template.
+  parameters:
+    - title: Workspace Template Configuration
+      required:
+        - templateName
+        - imageName
+      properties:
+        templateName:
+          title: Template Name
+          type: string
+          description: Provide a unique template name
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+        imageName:
+          title: Image Name
+          type: string
+          description: Provide image name
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+    - title: Configure Dockerfile
+      required:
+        - dockerfile
+      oneOf:
+        - title: Python
+          properties:
+            dockerfileType:
+              const: python
+            dockerfile:
+              type: string
+              title: Dockerfile
+              ui:widget: textarea
+              ui:options:
+                rows: 22
+              default: |
+                FROM ubuntu:latest
+
+                ENV DEBIAN_FRONTEND=noninteractive
+
+                RUN apt-get update && apt-get install -y \
+                    curl \
+                    wget \
+                    git \
+                    python3 \
+                    python3-pip \
+                    sudo \
+                    ca-certificates \
+                    gnupg \
+                    && rm -rf /var/lib/apt/lists/*
+
+
+                COPY install-vscode-extentions.sh /usr/local/bin/install-vscode-extentions.sh
+                RUN chmod +x /usr/local/bin/install-vscode-extentions.sh
+
+                RUN useradd -m wcd && \
+                echo "wcd ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+                USER wcd
+                WORKDIR /home/wcd
+        - title: Yocto
+          properties:
+            dockerfileType:
+              const: yocto
+            dockerfile:
+              type: string
+              title: Dockerfile
+              ui:widget: textarea
+              ui:options:
+                rows: 22
+              default: |
+                FROM yoctolinux:2.11
+    
+    - title: Project Repository Details
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: Repository Location
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+    - title: Add users to group
+      required:
+        - username
+        - groupname
+      properties:
+        username:
+          title: Username
+          type: string
+          description: Provide username to add to group
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+        groupname:
+          title: Group Name
+          type: string
+          description: Provide group name to which user will be added
+          enum:
+            - Wipro-Group-A
+            - Wipro-Group-B
+
+
+  # These steps are executed in the scaffolder backend, using data that we gathered
+  # via the parameters above.
+  steps:
+    # Each step executes an action, in this case one templates files into the working directory.
+    #- id: fetch-base
+    #  name: Fetch Base
+    #  action: fetch:template
+    #  input:
+    #    url: https://github.com/Wipro-Organization-105/WeCollab/blob/main/bs-software-templates/workspace-create/python-template
+    #    values:
+          # name: ${{ parameters.name }}
+          # image: ${{ parameters.image }}
+
+    - id: fetch-plain
+      name: Fetch Workspace Template
+      action: fetch:plain
+      input:
+        url: https://github.com/Wipro-Organization-105/WeCollab/tree/main/Terraform-Template/python-workspace-template
+        values:
+          imageName: ${{ parameters.imageName }}
+          dockerfile: ${{ parameters.dockerfile }}
+
+    # This step publishes the contents of the working directory to GitHub.
+    # If you or your organization prefer another default branch name over 'main'
+    # you can change that here.
+    - id: publish
+      name: Creating project repo
+      action: publish:github
+      input:
+        description: Publishing generated project from workspace template
+        repoUrl: ${{ parameters.repoUrl }}
+        defaultBranch: 'main'
+
+    # The final step is to register our new component in the catalog.
+  #  - id: register
+  #    name: Register
+  #    action: catalog:register
+  #    input:
+  #      repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
+  #      catalogInfoPath: '/catalog-info.yaml'
+
+    # Let's notify the user that the template has completed using the Notification action
+    - id: notify
+      name: Notify
+      action: notification:send
+      input:
+        recipients: entity
+        entityRefs:
+          - user:default/guest
+        title: 'Template executed'
+        info: 'Your template has been executed'
+        severity: 'normal'
+
+  # Outputs are displayed to the user after a successful execution of the template.
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps['publish'].output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps['register'].output.entityRef }}

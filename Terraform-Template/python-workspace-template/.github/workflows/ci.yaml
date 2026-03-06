@@ -1,0 +1,69 @@
+name: terraform-apply
+
+on:
+  workflow_dispatch:
+    inputs:
+      workspaceName:
+        description: "Workspace name from Backstage"
+        required: true
+        type: string
+
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Install Podman
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y podman
+      
+      
+      - name: Login to GHCR (Podman)
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | podman login ghcr.io \
+            -u "${{ github.actor }}" \
+            --password-stdin
+
+      # --- Build image with Podman ---
+      - name: Podman build
+        run: |
+          IMAGE="ghcr.io/kksinghwipro04/${{ inputs.imageName }}"
+          podman build -t "$IMAGE" -f Dockerfile .
+
+      
+      - name: Podman push
+        run: |
+          IMAGE="ghcr.io/kksinghwipro04/${{ inputs.imageName }}"
+          podman push "$IMAGE"
+
+      
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.14.6
+
+      
+      - name: Show versions
+        run: |
+          terraform -version
+
+      - name: Terraform init
+        run: terraform init -input=false
+
+      - name: Terraform plan
+        env:
+          TF_VAR_workspace_name: ${{ '${{ inputs.workspaceName }}' }}
+        run: terraform plan -input=false -out=tfplan
+
+      # Safe default: only apply automatically if auto_approve == true
+      - name: Terraform apply
+        #if: ${{ inputs.auto_approve == 'true' }}
+        env:
+          TF_VAR_workspace_name: ${{ '${{ inputs.workspaceName }}' }}
+
+        run: terraform apply -auto-approve
