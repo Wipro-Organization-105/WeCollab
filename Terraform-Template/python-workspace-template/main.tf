@@ -75,7 +75,7 @@ resource "kubernetes_role_binding" "wcd_sa_rolebinding" {
 
 variable "workspace_name" {
   type    = string
-  default = "${{ values.name }}"
+  default = "dev-workspace"
 }
 
 resource "random_string" "suffix" {
@@ -115,7 +115,7 @@ resource "kubernetes_pod" "workspace" {
     container {
       name  = "py-container"
       # image = "ghcr.io/yuvraj-bhupati/android-workspace:latest"
-      image = "${{ values.image }}"
+      image = "${{ values.imageName }}"
       image_pull_policy = "IfNotPresent"
 
 

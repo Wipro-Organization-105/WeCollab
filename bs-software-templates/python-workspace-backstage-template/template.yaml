@@ -2,7 +2,7 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: python-workspace-template
-  title: Create Template
+  title: Python Workspace Template
   description: Workflow to generate terraform to setup infra required for Developement Worksapce.
 spec:
   owner: user:guest
