@@ -103,8 +103,8 @@ spec:
                     && rm -rf /var/lib/apt/lists/*
 
 
-                COPY install-vscode-extentions.sh /usr/local/bin/install-vscode-extentions.sh
-                RUN chmod +x /usr/local/bin/install-vscode-extentions.sh
+                COPY install-vscode-extensions.sh /usr/local/bin/install-vscode-extensions.sh
+                RUN chmod +x /usr/local/bin/install-vscode-extensions.sh
 
                 RUN useradd -m wcd && \
                 echo "wcd ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers

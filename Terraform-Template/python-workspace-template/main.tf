@@ -124,7 +124,7 @@ resource "kubernetes_pod" "workspace" {
       lifecycle {
         postStart {
           exec {
-            command = ["/bin/bash", "-c", "/usr/local/bin/install-vscode-extentions.sh > /tmp/vscode-setup.log 2>&1 &"]
+            command = ["/bin/bash", "-c", "/usr/local/bin/install-vscode-extensions.sh > /tmp/vscode-setup.log 2>&1 &"]
           }
         }
       }
