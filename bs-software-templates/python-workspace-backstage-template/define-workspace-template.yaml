@@ -122,7 +122,61 @@ spec:
               ui:options:
                 rows: 22
               default: |
-                FROM yoctolinux:2.11
+                # Automotive Yocto build container (Ubuntu-based)
+                # - Suitable for poky + meta-openembedded + meta-ivi/meta-agl/meta-automotive
+                # - Non-root user for builds
+                # - Supports external DL_DIR and SSTATE_DIR via volume mounts
+
+                FROM ubuntu:22.04
+
+                ARG DEBIAN_FRONTEND=noninteractive
+                ARG USERNAME=builder
+                ARG USER_UID=1000
+                ARG USER_GID=1000
+
+                # --- Base packages & Yocto deps ---
+                RUN apt-get update && apt-get install -y --no-install-recommends \
+                    bash bc bison build-essential ca-certificates chrpath \
+                    cpio curl diffstat file gawk gcc git iputils-ping \
+                    less libegl1-mesa liblz4-tool locales \
+                    lsb-release make mesa-common-dev nano openssh-client perl \
+                    python3 python3-pexpect python3-pip python3-jinja2 python3-git python3-subunit \
+                    socat sudo texinfo tmux unzip vim \
+                    wget xz-utils zstd rsync \
+                    zlib1g-dev libssl-dev libncurses5-dev libncursesw5-dev \
+                    && rm -rf /var/lib/apt/lists/*
+
+                # --- Locale (some build scripts behave better with UTF-8) ---
+                RUN locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8
+                ENV LANG=en_US.UTF-8 \
+                    LC_ALL=en_US.UTF-8
+
+                # --- Repo tool (very common in automotive Yocto manifests) ---
+                RUN curl -fsSL https://storage.googleapis.com/git-repo-downloads/repo \
+                    -o /usr/local/bin/repo && chmod +x /usr/local/bin/repo
+
+                # --- Optional: kas (popular for pinned, reproducible Yocto builds) ---
+                RUN python3 -m pip install --no-cache-dir --upgrade pip && \
+                    python3 -m pip install --no-cache-dir kas
+
+                # --- Create non-root build user ---
+                RUN groupadd --gid ${USER_GID} ${USERNAME} && \
+                    useradd --uid ${USER_UID} --gid ${USER_GID} -m ${USERNAME} && \
+                    echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" >/etc/sudoers.d/${USERNAME} && \
+                    chmod 0440 /etc/sudoers.d/${USERNAME}
+
+                USER ${USERNAME}
+                WORKDIR /work
+
+                # Pre-create common directories for cache mounts
+                RUN mkdir -p /work/src /work/build /work/cache/downloads /work/cache/sstate
+
+                # These are just defaults; you typically override in conf/local.conf
+                ENV DL_DIR=/work/cache/downloads \
+                    SSTATE_DIR=/work/cache/sstate
+
+                # Handy: keep the container interactive by default
+                CMD ["/bin/bash"]
     
     - title: Repository Details
       required:
@@ -191,6 +245,7 @@ spec:
         values:        
            imageName: "${{ parameters.imageRegistry }}/${{ parameters.imageRepo }}/${{ parameters.imageName }}:${{ parameters.imageTag }}"
            dockerfile: "${{ parameters.dockerfile }}"
+           groupname: "${{ parameters.groupname }}"
 
     # This step publishes the contents of the working directory to GitHub.
     # If you or your organization prefer another default branch name over 'main'

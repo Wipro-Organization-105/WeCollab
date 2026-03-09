@@ -7,6 +7,10 @@ on:
         description: "Workspace name from Backstage"
         required: true
         type: string
+      groupname:
+        description: "Group name from Backstage"
+        required: true
+        type: string
 
 
 jobs:
@@ -26,9 +30,16 @@ jobs:
           path: source-repo
       - name: Copy main.tf files
         run: |
-          DIR=${{ '${{ inputs.workspaceName }}' }}
+          DIR="${{ '${{ inputs.workspaceName }}' }}"
           mkdir -p destination-repo/Terraform-Template/$DIR
           cp source-repo/main.tf destination-repo/Terraform-Template/$DIR/
+          JSONFILE="$DIR/group-template-mapping.json"
+          TEMPJSONFILE="$DIR/group-template-mapping-temp.json"
+          NEWPATH="$DIR/main.tf"
+          GROUP="${{ values.groupname }}"
+          jq --arg group "$GROUP" --arg path "$NEWPATH" \
+          '.groupTemplateMap[$group].path += [$path]' "$JSONFILE" > "$TEMPJSONFILE" \
+          && mv "$TEMPJSONFILE" "$JSONFILE"
       - name: Commit and push changes
         run: |
           cd destination-repo
