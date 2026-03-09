@@ -14,12 +14,34 @@ spec:
     - title: Workspace Template Configuration
       required:
         - templateName
-        - imageName
       properties:
         templateName:
           title: Template Name
           type: string
           description: Provide a unique template name
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+    - title: Image Repo Info
+      required:
+        - imageRegistry
+        - imageRepo
+        - imageName
+        - imageTag
+        - userName
+        - password
+      properties:
+        imageRegistry:
+          title: Image Registry
+          type: string
+          description: Provide image registry (e.g., ghcr.io)
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+        imageRepo:
+          title: Image Repository
+          type: string
+          description: Provide image repository name
           ui:autofocus: true
           ui:options:
             rows: 5
@@ -30,6 +52,25 @@ spec:
           ui:autofocus: true
           ui:options:
             rows: 5
+        imageTag:
+          title: Image Tag
+          type: string
+          description: Provide image tag
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+        userName:
+          title: Username
+          type: string
+          description: Provide username for image registry
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+        password:
+          title: Password
+          type: string
+          description: Provide password for image registry
+          ui:widget: password
     - title: Configure Dockerfile
       required:
         - dockerfile
@@ -82,17 +123,31 @@ spec:
               default: |
                 FROM yoctolinux:2.11
     
-    - title: Project Repository Details
+    - title: Repository Details
       required:
         - repoUrl
+        - repoName
+        - repoOrg
       properties:
         repoUrl:
-          title: Repository Location
+          title: Repository URL
           type: string
-          ui:field: RepoUrlPicker
+          ui:autofocus: true
           ui:options:
-            allowedHosts:
-              - github.com
+            rows: 5
+        repoName:
+          title: Repository Name
+          type: string
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+        repoOrg:
+          title: Repository Organization
+          type: string
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+          
     - title: Add users to group
       required:
         - username
@@ -133,7 +188,7 @@ spec:
       input:
         url: https://github.com/Wipro-Organization-105/WeCollab/tree/main/Terraform-Template/python-workspace-template
         values:        
-           imageName: ${{ parameters.imageName }}
+           imageName: "${{ parameters.imageRegistry }}/${{ parameters.imageRepo }}/${{ parameters.imageName }}:{{ parameters.imageTag }}"
            dockerfile: ${{ parameters.dockerfile }}
 
     # This step publishes the contents of the working directory to GitHub.
@@ -144,8 +199,22 @@ spec:
       action: publish:github
       input:
         description: Publishing generated project from workspace template
-        repoUrl: ${{ parameters.repoUrl }}
+        repoUrl: "${{parameters.repoUrl}}?repo=${{ parameters.repoName }}&owner=${{ parameters.repoOrg }}"
         defaultBranch: 'main'
+    
+    # Trigger the image build workflow after publishing the repo
+    - id: trigger-workflow
+      name: Trigger GitHub Actions workflow
+      action: github:actions:dispatch
+      input:
+        repoUrl: "${{parameters.repoUrl}}?repo=${{ parameters.repoName }}&owner=${{ parameters.repoOrg }}" 
+        workflowId: image-build.yaml
+        branchOrTagName: main
+        workflowInputs:
+          imageName: "${{ parameters.imageRegistry }}/${{ parameters.imageRepo }}/${{ parameters.imageName }}:{{ parameters.imageTag }}"
+          username: ${{ parameters.username }}
+          password: ${{ parameters.password }}
+
 
     # The final step is to register our new component in the catalog.
   #  - id: register

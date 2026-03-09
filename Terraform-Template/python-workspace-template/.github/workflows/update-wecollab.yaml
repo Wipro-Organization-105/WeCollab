@@ -1,0 +1,38 @@
+name: Fetch wecollab repo and update Terraform template
+
+on:
+  workflow_dispatch:
+    inputs:
+      workspaceName:
+        description: "Workspace name from Backstage"
+        required: true
+        type: string
+
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          path: destination-repo
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          repository: Wipro-Organization-105/WeCollab
+          ref: main
+          path: source-repo
+      - name: Copy main.tf files
+        run: |
+          mkdir -p destination-repo/Terraform-Template/${{ ${{ inputs.workspaceName }} }}
+          cp source-repo/main.tf destination-repo/Terraform-Template/${{ ${{ inputs.workspaceName }} }}/
+      - name: Commit and push changes
+        run: |
+          cd destination-repo
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add .
+          git commit -m "Update Terraform template for ${{ ${{ inputs.workspaceName }} }}"
+          git push origin HEAD:main

@@ -1,0 +1,123 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: createWorkspace-template
+  title: Create Workspace
+  description: Workflow to create a developement workspace using templates.
+spec:
+  owner: user:guest
+  type: service
+
+  # These parameters are used to generate the input form in the frontend, and are
+  # used to gather input data for the execution of the template.
+  parameters:
+    - title:  Workspace Specification
+      required:
+        - name
+        - templateName
+        - repoOrg
+        - repoName
+      properties:
+        name:
+          title: Workspace Name
+          type: string
+          description: Provide a name for the workspace
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+        templateName:
+          title: Choose template 
+          type: string
+          enum:
+            - python-template
+            - yocto-template
+        repoOrg:
+          title: Provide Repo Organization
+          type: string
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+        repoName:
+          title: Provide Repo Name
+          type: string
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+ 
+  # These steps are executed in the scaffolder backend, using data that we gathered
+  # via the parameters above.
+  steps:
+    # Each step executes an action, in this case one templates files into the working directory.
+    #- id: fetch-base
+    #  name: Fetch Base
+    #  action: fetch:template
+    #  input:
+    #    url: ./content
+    #    values:
+    #      baseImage: ${{ parameters.baseImage }}
+    #      dockerfileRunCommands: ${{ parameters.dockerfileRunCommands }}
+    #      name: ${{ parameters.name }}
+    #      description: ${{ parameters.description }}
+
+    # This step publishes the contents of the working directory to GitHub.
+    # If you or your organization prefer another default branch name over 'main'
+    # you can change that here.
+    #- id: fetch-script
+    #  name: Calling WCD
+    #  action: fetch:plain:file
+    #  input:
+    #    url: ./content/scripts/createWorkspace.sh
+    #    targetPath: scripts/createWorkspace.sh    
+    #- id: run-script
+    #  name: Creating Workspace
+    #  action: container:run
+    #  input:
+    #    image: ghcr.io/yuvraj-bhupati/alpine-git-terraform:v3
+    #    command:
+    #      - bash
+    #      - /workspace/createWorksapce.sh
+
+    # Triggering the GitHub Actions workflow to apply Terraform configuration and create workspace in cloud provider
+    - id: trigger-workflow
+      name: Trigger GitHub Actions workflow
+      action: github:actions:dispatch
+      input:
+        repoUrl: "github.com?repo=${{ parameters.repoName }}&owner=${{ parameters.repoOrg }}" 
+        workflowId: ci.yaml
+        branchOrTagName: main
+        workflowInputs:
+          workspaceName: ${{ parameters.name }}
+        #  operation: ${{ parameters.operation }}
+    
+    # Trigger the workflow to update wecollab repo to make Terraform template available to users after workspace creation
+    - id: trigger-workflow
+      name: Trigger GitHub Actions workflow
+      action: github:actions:dispatch
+      input:
+        repoUrl: "github.com?repo=${{ parameters.repoName }}&owner=${{ parameters.repoOrg }}" 
+        workflowId: update-wecollab.yaml
+        branchOrTagName: main
+        workflowInputs:
+          workspaceName: ${{ parameters.name }}
+
+
+    # Let's notify the user that the template has completed using the Notification action
+    - id: notify
+      name: Notify
+      action: notification:send
+      input:
+        recipients: entity
+        entityRefs:
+          - user:default/guest
+        title: 'Template executed'
+        info: 'Your template has been executed'
+        severity: 'normal'
+
+  # Outputs are displayed to the user after a successful execution of the template.
+#  output:
+#    links:
+#      - title: Repository
+#        url: ${{ steps['publish'].output.remoteUrl }}
+#      - title: Open in catalog
+#        icon: catalog
+#        entityRef: ${{ steps['register'].output.entityRef }}
