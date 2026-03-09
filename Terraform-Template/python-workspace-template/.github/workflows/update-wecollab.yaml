@@ -26,8 +26,9 @@ jobs:
           path: source-repo
       - name: Copy main.tf files
         run: |
-          mkdir -p destination-repo/Terraform-Template/${{ '${{ inputs.workspaceName }}' }}
-          cp source-repo/main.tf destination-repo/Terraform-Template/${{ '${{ inputs.workspaceName }}' }}/
+          DIR=${{ '${{ inputs.workspaceName }}' }}
+          mkdir -p destination-repo/Terraform-Template/$DIR
+          cp source-repo/main.tf destination-repo/Terraform-Template/$DIR/
       - name: Commit and push changes
         run: |
           cd destination-repo

@@ -33,8 +33,10 @@ jobs:
       
       - name: Login to GHCR (Podman)
         run: |
-          echo ${{ '${{ inputs.repoPass }}' }} | podman login ghcr.io \
-            -u ${{ '${{ inputs.repoUser }}' }} \
+          PASS=${{ '${{ inputs.repoPass }}' }}
+          USER=${{ '${{ inputs.repoUser }}' }}
+          echo "$PASS" | podman login ghcr.io \
+            -u "$USER" \
             --password-stdin
 
       # --- Build image with Podman ---
