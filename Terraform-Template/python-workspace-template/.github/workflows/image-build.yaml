@@ -35,17 +35,16 @@ jobs:
         run: |
           PASS=${{ "${{ inputs.repoPass }}" }}
           USER=${{ "${{ inputs.repoUser }}" }}
-          echo "$PASS" | podman login ghcr.io -u "$USER" --password-stdin
-          sudo usermod --add-subuids 100000-165535 --add-subgids 100000-165535 $USER
+          echo "$PASS" | sudo podman login ghcr.io -u "$USER" --password-stdin
 
       # --- Build image with Podman ---
       - name: Podman build
         run: |
           IMAGE=${{ "${{ inputs.imageName }}" }}
-          podman build -t "$IMAGE" -f Dockerfile .
+          sudo podman build -t "$IMAGE" -f Dockerfile .
 
       
       - name: Podman push
         run: |
           IMAGE=${{ "${{ inputs.imageName }}" }}
-          podman push "$IMAGE"
+          sudo podman push "$IMAGE"
