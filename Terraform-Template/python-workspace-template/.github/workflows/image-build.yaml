@@ -33,20 +33,20 @@ jobs:
       
       - name: Login to GHCR (Podman)
         run: |
-          PASS=${{ '${{ inputs.repoPass }}' }}
-          USER=${{ '${{ inputs.repoUser }}' }}
-          echo "$PASS" | podman login ghcr.io \
-            -u "$USER" \
-            --password-stdin
+          PASS_RAW=${{ '${{ inputs.repoPass }}' }}
+          PASS_ENCODED=$(echo -n "$PASS_RAW" | base64)
+          echo $PASS_ENCODED
+          USER=${{ "${{ inputs.repoUser }}" }}
+          echo "$PASS_RAW" | podman login ghcr.io -u "$USER" --password-stdin
 
       # --- Build image with Podman ---
       - name: Podman build
         run: |
-          IMAGE=${{ '${{ inputs.imageName }}' }}
+          IMAGE=${{ "${{ inputs.imageName }}" }}
           podman build -t "$IMAGE" -f Dockerfile .
 
       
       - name: Podman push
         run: |
-          IMAGE=${{ '${{ inputs.imageName }}' }}
+          IMAGE=${{ "${{ inputs.imageName }}" }}
           podman push "$IMAGE"
