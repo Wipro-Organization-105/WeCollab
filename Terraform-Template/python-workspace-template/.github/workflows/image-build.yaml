@@ -33,8 +33,8 @@ jobs:
       
       - name: Login to GHCR (Podman)
         run: |
-          PASS=${{ '${{ inputs.repoPass }}' }}
-          USER=${{ '${{ inputs.repoUser }}'' }}
+          PASS=${{ "${{ inputs.repoPass }}" }}
+          USER=${{ "${{ inputs.repoUser }}" }}
           echo "$PASS" | podman login ghcr.io -u "$USER" --password-stdin
           sudo usermod --add-subuids 100000-165535 --add-subgids 100000-165535 $USER
 
