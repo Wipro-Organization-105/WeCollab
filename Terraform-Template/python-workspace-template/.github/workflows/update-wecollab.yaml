@@ -1,4 +1,4 @@
-name: Fetch wecollab repo and update Terraform template
+name: Fetch wecollab repo
 
 on:
   workflow_dispatch:
@@ -26,7 +26,7 @@ jobs:
           path: source-repo
       - name: Copy main.tf files
         run: |
-          mkdir -p destination-repo/Terraform-Template/${{ '${{ inputs.workspaceName }}'' }}
+          mkdir -p destination-repo/Terraform-Template/${{ '${{ inputs.workspaceName }}' }}
           cp source-repo/main.tf destination-repo/Terraform-Template/${{ '${{ inputs.workspaceName }}' }}/
       - name: Commit and push changes
         run: |
@@ -34,5 +34,5 @@ jobs:
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add .
-          git commit -m "Update Terraform template for ${{ '${{ inputs.workspaceName }}' }}"
+          git commit -m "Update Terraform template"
           git push origin HEAD:main
