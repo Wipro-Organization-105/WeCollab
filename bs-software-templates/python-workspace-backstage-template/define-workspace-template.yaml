@@ -28,8 +28,8 @@ spec:
         - imageRepo
         - imageName
         - imageTag
-        - userName
-        - password
+        - repoUser
+        - repoPass
       properties:
         imageRegistry:
           title: Image Registry
@@ -59,14 +59,14 @@ spec:
           ui:autofocus: true
           ui:options:
             rows: 5
-        userName:
+        repoUser:
           title: User Id for Image Registry
           type: string
           description: Provide username for image registry
           ui:autofocus: true
           ui:options:
             rows: 5
-        password:
+        repoPass:
           title: Password for Image Registry
           type: string
           description: Provide password for image registry
@@ -212,8 +212,8 @@ spec:
         branchOrTagName: main
         workflowInputs:
           imageName: "${{ parameters.imageRegistry }}/${{ parameters.imageRepo }}/${{ parameters.imageName }}:{{ parameters.imageTag }}"
-          username: ${{ parameters.username }}
-          password: ${{ parameters.password }}
+          repoUser: ${{ parameters.repoUser }}
+          repoPass: ${{ parameters.repoPass }}
 
 
     # The final step is to register our new component in the catalog.

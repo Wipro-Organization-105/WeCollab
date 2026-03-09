@@ -7,11 +7,11 @@ on:
         description: "Workspace image name"
         required: true
         type: string
-      password:
+      repoPass:
         description: "GitHub token with permissions to push to GHCR"
         required: true
         type: string
-      username:
+      repoUser:
         description: "GitHub username associated with the token"
         required: true
         type: string
@@ -33,8 +33,8 @@ jobs:
       
       - name: Login to GHCR (Podman)
         run: |
-          echo ${{ '${{ inputs.password }}' }} | podman login ghcr.io \
-            -u ${{ '${{ inputs.username }}' }} \
+          echo ${{ '${{ inputs.repoPass }}' }} | podman login ghcr.io \
+            -u ${{ '${{ inputs.repoUser }}' }} \
             --password-stdin
 
       # --- Build image with Podman ---
