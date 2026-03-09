@@ -188,8 +188,8 @@ spec:
       input:
         url: https://github.com/Wipro-Organization-105/WeCollab/tree/main/Terraform-Template/python-workspace-template
         values:        
-           imageName: "${{ parameters.imageRegistry }}/${{ parameters.imageRepo }}/${{ parameters.imageName }}:{{ parameters.imageTag }}"
-           dockerfile: ${{ parameters.dockerfile }}
+           imageName: "${{ parameters.imageRegistry }}/${{ parameters.imageRepo }}/${{ parameters.imageName }}:${{ parameters.imageTag }}"
+           dockerfile: "${{ parameters.dockerfile }}"
 
     # This step publishes the contents of the working directory to GitHub.
     # If you or your organization prefer another default branch name over 'main'
@@ -212,8 +212,8 @@ spec:
         branchOrTagName: main
         workflowInputs:
           imageName: "${{ parameters.imageRegistry }}/${{ parameters.imageRepo }}/${{ parameters.imageName }}:${{ parameters.imageTag }}"
-          repoUser: ${{ parameters.repoUser }}
-          repoPass: ${{ parameters.repoPass }}
+          repoUser: "${{ parameters.repoUser }}"
+          repoPass: "${{ parameters.repoPass }}"
 
 
     # The final step is to register our new component in the catalog.
