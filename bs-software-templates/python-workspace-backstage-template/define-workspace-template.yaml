@@ -70,7 +70,7 @@ spec:
           title: Password for Image Registry
           type: string
           description: Provide password for image registry
-          ui:widget: password
+          ui:field: Secret
     - title: Configure Dockerfile
       required:
         - dockerfile
