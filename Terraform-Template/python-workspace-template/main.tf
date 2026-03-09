@@ -121,7 +121,13 @@ resource "kubernetes_pod" "workspace" {
 
       command = ["bash", "-lc"]
       args    = ["exec tail -f /dev/null"]
-
+      lifecycle {
+        postStart {
+          exec {
+            command = ["/bin/bash", "-c", "/usr/local/bin/install-vscode-extentions.sh > /tmp/vscode-setup.log 2>&1 &"]
+          }
+        }
+      }
       resources {
         requests = {
           cpu    = "200m"
