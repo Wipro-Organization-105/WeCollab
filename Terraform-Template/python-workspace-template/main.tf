@@ -122,7 +122,7 @@ resource "kubernetes_pod" "workspace" {
       command = ["bash", "-lc"]
       args    = ["exec tail -f /dev/null"]
       lifecycle {
-        postStart {
+        post_start {
           exec {
             command = ["/bin/bash", "-c", "/usr/local/bin/install-vscode-extensions.sh > /tmp/vscode-setup.log 2>&1 &"]
           }

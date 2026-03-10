@@ -7,10 +7,6 @@ on:
         description: "Workspace name from Backstage"
         required: true
         type: string
-      groupname:
-        description: "Group name from Backstage"
-        required: true
-        type: string
 
 
 jobs:
