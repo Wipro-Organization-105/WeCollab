@@ -6,8 +6,8 @@ permissions:
 on:
   workflow_dispatch:
     inputs:
-      workspaceName:
-        description: "Workspace name from Backstage"
+      workspaceTemplateName:
+        description: "Workspace template name from Backstage"
         required: true
         type: string
 
@@ -30,7 +30,7 @@ jobs:
           token: "${{ values.gitToken }}"
       - name: Copy main.tf files
         run: |
-          DIR="${{ '${{ inputs.workspaceName }}' }}"
+          DIR="${{ '${{ inputs.workspaceTemplateName }}' }}"
           mkdir -p destination-repo/Terraform-Template/$DIR
           cp source-repo/main.tf destination-repo/Terraform-Template/$DIR/
           JSONFILE="destination-repo/json-files/group-template-mapping.json"

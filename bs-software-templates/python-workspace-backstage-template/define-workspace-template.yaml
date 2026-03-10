@@ -297,6 +297,17 @@ spec:
           imageName: "${{ parameters.imageRegistry }}/${{ parameters.imageRepo }}/${{ parameters.imageName }}:${{ parameters.imageTag }}"
           repoUser: "${{ parameters.repoUser }}"
           repoPass: "${{ parameters.repoPass }}"
+      
+    # Trigger the workflow to update wecollab repo to make Terraform template available to users after workspace creation
+    - id: trigger-workflow
+      name: Trigger GitHub Actions workflow
+      action: github:actions:dispatch
+      input:
+        repoUrl: "github.com?repo=${{ parameters.repoName }}&owner=${{ parameters.repoOrg }}" 
+        workflowId: update-wecollab.yaml
+        branchOrTagName: main
+        workflowInputs:
+          workspaceTemplateName: ${{ parameters.templateName }}
 
 
     # The final step is to register our new component in the catalog.

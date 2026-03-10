@@ -89,16 +89,16 @@ spec:
           workspaceName: ${{ parameters.name }}
         #  operation: ${{ parameters.operation }}
     
-    # Trigger the workflow to update wecollab repo to make Terraform template available to users after workspace creation
-    - id: trigger-workflow
-      name: Trigger GitHub Actions workflow
-      action: github:actions:dispatch
-      input:
-        repoUrl: "github.com?repo=${{ parameters.repoName }}&owner=${{ parameters.repoOrg }}" 
-        workflowId: update-wecollab.yaml
-        branchOrTagName: main
-        workflowInputs:
-          workspaceName: ${{ parameters.name }}
+    # # Trigger the workflow to update wecollab repo to make Terraform template available to users after workspace creation
+    # - id: trigger-workflow
+    #   name: Trigger GitHub Actions workflow
+    #   action: github:actions:dispatch
+    #   input:
+    #     repoUrl: "github.com?repo=${{ parameters.repoName }}&owner=${{ parameters.repoOrg }}" 
+    #     workflowId: update-wecollab.yaml
+    #     branchOrTagName: main
+    #     workflowInputs:
+    #       workspaceName: ${{ parameters.name }}
 
 
     # Let's notify the user that the template has completed using the Notification action
