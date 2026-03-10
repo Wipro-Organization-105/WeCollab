@@ -17,13 +17,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          path: destination-repo
+          path: source-repo
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           repository: Wipro-Organization-105/WeCollab
           ref: main
-          path: source-repo
+          path: destination-repo
       - name: Copy main.tf files
         run: |
           DIR="${{ '${{ inputs.workspaceName }}' }}"
