@@ -183,6 +183,9 @@ spec:
         - repoUrl
         - repoName
         - repoOrg
+        - gitUser
+        - gitUserEmail
+        - gitToken
       properties:
         repoUrl:
           title: Repository URL
@@ -199,6 +202,27 @@ spec:
         repoOrg:
           title: Repository Organization
           type: string
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+        gitUser:
+          title: Git Username
+          type: string
+          description: Provide username for git operations
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+        gitUserEmail:
+          title: Git User Email
+          type: string
+          description: Provide email associated with the git username
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+        gitToken:
+          title: Git Token
+          type: string
+          description: Provide token for git operations
           ui:autofocus: true
           ui:options:
             rows: 5
@@ -246,6 +270,9 @@ spec:
            imageName: "${{ parameters.imageRegistry }}/${{ parameters.imageRepo }}/${{ parameters.imageName }}:${{ parameters.imageTag }}"
            dockerfile: "${{ parameters.dockerfile }}"
            groupname: "${{ parameters.groupname }}"
+           gitUser: "${{ parameters.gitUser }}"
+           gitUserEmail: "${{ parameters.gitUserEmail }}"
+           gitToken: "${{ parameters.gitToken }}"
 
     # This step publishes the contents of the working directory to GitHub.
     # If you or your organization prefer another default branch name over 'main'

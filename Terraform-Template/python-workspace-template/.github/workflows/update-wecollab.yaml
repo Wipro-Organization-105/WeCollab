@@ -1,4 +1,7 @@
-name: Fetch wecollab repo
+name: Add Workspace in WCD
+
+permissions: 
+  contents: write
 
 on:
   workflow_dispatch:
@@ -24,6 +27,7 @@ jobs:
           repository: Wipro-Organization-105/WeCollab
           ref: main
           path: destination-repo
+          token: "${{ values.gitToken }}"
       - name: Copy main.tf files
         run: |
           DIR="${{ '${{ inputs.workspaceName }}' }}"
@@ -39,8 +43,8 @@ jobs:
       - name: Commit and push changes
         run: |
           cd destination-repo
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
+          git config user.name "${{ values.gitUser }}"
+          git config user.email "${{ values.gitUserEmail }}"
           git add .
           git commit -m "Update Terraform template"
           git push origin HEAD:main
