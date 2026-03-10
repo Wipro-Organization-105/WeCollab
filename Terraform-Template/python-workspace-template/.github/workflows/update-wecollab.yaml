@@ -33,8 +33,8 @@ jobs:
           DIR="${{ '${{ inputs.workspaceName }}' }}"
           mkdir -p destination-repo/Terraform-Template/$DIR
           cp source-repo/main.tf destination-repo/Terraform-Template/$DIR/
-          JSONFILE="$DIR/group-template-mapping.json"
-          TEMPJSONFILE="$DIR/group-template-mapping-temp.json"
+          JSONFILE="destination-repo/json-files/group-template-mapping.json"
+          TEMPJSONFILE="destination-repo/json-files/group-template-mapping-temp.json"
           NEWPATH="$DIR/main.tf"
           GROUP="${{ values.groupname }}"
           jq --arg group "$GROUP" --arg path "$NEWPATH" \
