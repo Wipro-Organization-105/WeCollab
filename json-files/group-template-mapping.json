@@ -6,12 +6,17 @@
   },
   "groupTemplateMap": {
     "Wipro-Group-A": {
-      "path": ["python/main.tf"],
+      "path": [
+        "python/main.tf",
+        "py-ws-01/main.tf"
+      ],
       "branch": "main",
       "description": "Default Python Terraform template"
     },
     "Wipro-Group-B": {
-      "path": ["android/main.tf"],
+      "path": [
+        "android/main.tf"
+      ],
       "branch": "main",
       "description": "Default Android Terraform template"
     }
