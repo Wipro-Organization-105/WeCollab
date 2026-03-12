@@ -16,6 +16,7 @@
         "py-ws-03/main.tf",
         "py-ws-03/main.tf",
         "py-ws-05/main.tf",
+        "py-ws-06/main.tf",
         "py-ws-06/main.tf"
       ],
       "branch": "main",
