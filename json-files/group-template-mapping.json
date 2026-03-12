@@ -19,7 +19,8 @@
         "py-ws-06/main.tf",
         "py-ws-06/main.tf",
         "py-ws-07/main.tf",
-        "py-ws-08/main.tf"
+        "py-ws-08/main.tf",
+        "py-ws-10/main.tf"
       ],
       "branch": "main",
       "description": "Default Python Terraform template"
