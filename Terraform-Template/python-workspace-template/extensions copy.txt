@@ -1,1 +1,1 @@
-${{ values.extenstion }}
+${{ values.extenstions }}
