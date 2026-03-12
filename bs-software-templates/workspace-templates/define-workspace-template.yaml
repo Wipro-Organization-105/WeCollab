@@ -75,7 +75,6 @@ spec:
     - title: Configure Dockerfile
       required:
         - dockerfile
-        - extensions
       oneOf:
         - title: Python
           properties:
