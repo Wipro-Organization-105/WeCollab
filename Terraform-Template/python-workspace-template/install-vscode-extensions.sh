@@ -15,12 +15,11 @@ done
 
 echo "[vscode-auto-setup] VS Code server detected. Installing extensions..."
 
-EXTENSIONS_FILE="/tmp/extensions.txt"
-if [ -s  "$EXTENSIONS_FILE" ]; then
-    mapfile -t EXTENSIONS < "$EXTENSIONS_FILE"
-    for EXTENSION in "${EXTENSIONS[@]}"; do
-        echo "[vscode-auto-setup] Installing extension: $EXTENSION"
-        code-server --install-extension "$EXTENSION" --force --extensions-dir "$EXT_DIR" || true
+EXTENSIONS=`cat /tmp/extensions.txt|sed 's/,/ /g'`
+if [ -n "$EXTENSIONS" ]; then
+    for EXT in $EXTENSIONS; do
+        echo "[vscode-auto-setup] Installing extension: $EXT"
+        code-server --install-extension "$EXT" --force --extensions-dir "$EXT_DIR" || true
     done
 else
     echo "[vscode-auto-setup] No extensions to install. Exiting."
