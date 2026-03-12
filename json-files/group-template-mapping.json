@@ -9,7 +9,8 @@
       "path": [
         "python/main.tf",
         "py-ws-01/main.tf",
-        "py-tmpl-01/main.tf"
+        "py-tmpl-01/main.tf",
+        "python-template/main.tf"
       ],
       "branch": "main",
       "description": "Default Python Terraform template"
