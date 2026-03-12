@@ -252,7 +252,7 @@ spec:
               - ms-vscode.cpptools
               - ms-vscode.cmake-tools
               - yocto-project.yocto-bitbake
-              - ms-vscode.remote-ssh
+              - ms-vscode-remote.remote-ssh
           uniqueItems: true
           ui:widget: checkboxes
 
