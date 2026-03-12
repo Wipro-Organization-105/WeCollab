@@ -253,8 +253,8 @@ spec:
               - ms-vscode.cmake-tools
               - yocto-project.yocto-bitbake
               - ms-vscode.remote-ssh
-            uniqueItems: true
-            ui:widget: checkboxes
+          uniqueItems: true
+          ui:widget: checkboxes
 
     - title: Add users to group
       required:
