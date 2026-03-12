@@ -1,1 +1,3 @@
-${{ values.extensions }}
+{% for ext in values.extensions %}
+{{ ext }}
+{% endfor %}
