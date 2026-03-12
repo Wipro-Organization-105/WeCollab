@@ -14,7 +14,8 @@
         "py-template-02/main.tf",
         "pyx-tmpl-v2/main.tf",
         "py-ws-03/main.tf",
-        "py-ws-03/main.tf"
+        "py-ws-03/main.tf",
+        "py-ws-05/main.tf"
       ],
       "branch": "main",
       "description": "Default Python Terraform template"
