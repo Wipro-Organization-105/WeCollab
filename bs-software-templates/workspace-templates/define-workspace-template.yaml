@@ -302,7 +302,7 @@ spec:
            gitUser: "${{ parameters.gitUser }}"
            gitUserEmail: "${{ parameters.gitUserEmail }}"
            gitToken: "${{ parameters.gitToken }}"
-           extensions: ${{ parameters.extensions }}
+           extensions: "${{ parameters.extensions }}"
     # This step publishes the contents of the working directory to GitHub.
     # If you or your organization prefer another default branch name over 'main'
     # you can change that here.
