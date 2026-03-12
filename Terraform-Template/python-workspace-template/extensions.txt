@@ -1,0 +1,3 @@
+{% for ext in extensions %}
+{{ ext }}
+{{% endfor %}}

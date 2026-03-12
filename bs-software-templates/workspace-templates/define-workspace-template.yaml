@@ -75,6 +75,7 @@ spec:
     - title: Configure Dockerfile
       required:
         - dockerfile
+        - extensions
       oneOf:
         - title: Python
           properties:
@@ -102,9 +103,12 @@ spec:
                     gnupg \
                     && rm -rf /var/lib/apt/lists/*
 
+                RUN curl -fsSL https://code-server.dev/install.sh | sh
 
                 COPY install-vscode-extensions.sh /usr/local/bin/install-vscode-extensions.sh
                 RUN chmod +x /usr/local/bin/install-vscode-extensions.sh
+
+                COPY extensions.txt /tmp/extensions.txt
 
                 RUN useradd -m wcd && \
                 echo "wcd ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
@@ -150,6 +154,13 @@ spec:
                 RUN locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8
                 ENV LANG=en_US.UTF-8 \
                     LC_ALL=en_US.UTF-8
+                
+                RUN curl -fsSL https://code-server.dev/install.sh | sh
+
+                COPY install-vscode-extensions.sh /usr/local/bin/install-vscode-extensions.sh
+                RUN chmod +x /usr/local/bin/install-vscode-extensions.sh
+                
+                COPY extensions.txt /tmp/extensions.txt
 
                 # --- Repo tool (very common in automotive Yocto manifests) ---
                 RUN curl -fsSL https://storage.googleapis.com/git-repo-downloads/repo \
@@ -188,19 +199,19 @@ spec:
         - gitToken
       properties:
         repoUrl:
-          title: Repository URL
+          title: Git Repository URL
           type: string
           ui:autofocus: true
           ui:options:
             rows: 5
         repoName:
-          title: Repository Name
+          title: Git Repository Name
           type: string
           ui:autofocus: true
           ui:options:
             rows: 5
         repoOrg:
-          title: Repository Organization
+          title: GitRepository Organization
           type: string
           ui:autofocus: true
           ui:options:
@@ -226,7 +237,26 @@ spec:
           ui:autofocus: true
           ui:options:
             rows: 5
-          
+    
+    - title: Select Required IDE Extensions
+      required:
+        - extensions
+      properties:
+        extensions:
+          title: IDE Extensions
+          type: array
+          description: Select the required IDE extensions
+          items:
+            type: string
+            enum:
+              - ms-python.python
+              - ms-vscode.cpptools
+              - ms-vscode.cmake-tools
+              - yocto-project.yocto-bitbake
+              - ms-vscode.remote-ssh
+            uniqueItems: true
+            ui:widget: checkboxes
+
     - title: Add users to group
       required:
         - username
@@ -273,7 +303,7 @@ spec:
            gitUser: "${{ parameters.gitUser }}"
            gitUserEmail: "${{ parameters.gitUserEmail }}"
            gitToken: "${{ parameters.gitToken }}"
-
+           extensions: "${{ parameters.extensions }}"
     # This step publishes the contents of the working directory to GitHub.
     # If you or your organization prefer another default branch name over 'main'
     # you can change that here.
