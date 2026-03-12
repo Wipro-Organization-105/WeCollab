@@ -21,7 +21,9 @@
         "py-ws-07/main.tf",
         "py-ws-08/main.tf",
         "py-ws-10/main.tf",
-        "py-ws-12/main.tf"
+        "py-ws-12/main.tf",
+        "py-tmpl-21/main.tf",
+        "py-ws-21/main.tf"
       ],
       "branch": "main",
       "description": "Default Python Terraform template"
