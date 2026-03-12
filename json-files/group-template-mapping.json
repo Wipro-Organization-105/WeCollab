@@ -7,23 +7,7 @@
   "groupTemplateMap": {
     "Wipro-Group-A": {
       "path": [
-        "python/main.tf",
-        "py-ws-01/main.tf",
-        "py-tmpl-01/main.tf",
-        "python-template/main.tf",
-        "py-template-02/main.tf",
-        "pyx-tmpl-v2/main.tf",
-        "py-ws-03/main.tf",
-        "py-ws-03/main.tf",
-        "py-ws-05/main.tf",
-        "py-ws-06/main.tf",
-        "py-ws-06/main.tf",
-        "py-ws-07/main.tf",
-        "py-ws-08/main.tf",
-        "py-ws-10/main.tf",
-        "py-ws-12/main.tf",
-        "py-tmpl-21/main.tf",
-        "py-ws-21/main.tf"
+        "python/main.tf"
       ],
       "branch": "main",
       "description": "Default Python Terraform template"
