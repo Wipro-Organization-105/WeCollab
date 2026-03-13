@@ -35,6 +35,7 @@ spec:
           title: Image Registry
           type: string
           description: Provide image registry (e.g., ghcr.io)
+          default: ghcr.io
           ui:autofocus: true
           ui:options:
             rows: 5
@@ -56,6 +57,7 @@ spec:
           title: Image Tag
           type: string
           description: Provide image tag
+          default: latest
           ui:autofocus: true
           ui:options:
             rows: 5
@@ -200,18 +202,21 @@ spec:
         repoUrl:
           title: Git Repository URL
           type: string
+          default: github.com
           ui:autofocus: true
           ui:options:
             rows: 5
         repoName:
           title: Git Repository Name
           type: string
+          default: workspace-configution
           ui:autofocus: true
           ui:options:
             rows: 5
         repoOrg:
           title: GitRepository Organization
           type: string
+          default: Wipro-Organization-105
           ui:autofocus: true
           ui:options:
             rows: 5
@@ -256,7 +261,7 @@ spec:
           uniqueItems: true
           ui:widget: checkboxes
 
-    - title: Add users to group
+    - title: Provide User and Group for Workspace Access
       required:
         - username
         - groupname
