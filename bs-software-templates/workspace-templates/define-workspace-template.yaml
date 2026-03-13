@@ -80,8 +80,8 @@ spec:
       oneOf:
         - title: Python
           properties:
-            dockerfileType:
-              const: python
+            # dockerfileType:
+            #   const: python
             dockerfile:
               type: string
               title: Dockerfile
@@ -118,8 +118,8 @@ spec:
                 WORKDIR /home/wcd
         - title: Yocto
           properties:
-            dockerfileType:
-              const: yocto
+            #dockerfileType:
+            #  const: yocto
             dockerfile:
               type: string
               title: Dockerfile
@@ -209,7 +209,7 @@ spec:
         repoName:
           title: Git Repository Name
           type: string
-          default: workspace-configution
+          default: workspace-configuration
           ui:autofocus: true
           ui:options:
             rows: 5
