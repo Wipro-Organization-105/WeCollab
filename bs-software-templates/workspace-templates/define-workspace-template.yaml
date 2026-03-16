@@ -16,6 +16,7 @@ spec:
         - templateName
         - userName
         - userPassword
+        - groupname
       properties:
         templateName:
           title: Template Name
@@ -33,6 +34,13 @@ spec:
           type: string
           description: Provide token for repository access
           ui:field: password
+        groupname:
+          title: Group Name
+          type: string
+          description: Select group to which Template will be assigned
+          enum:
+            - Wipro-Group-A
+            - Wipro-Group-B
         
     - title: Image Repo Info
       required:
@@ -273,25 +281,25 @@ spec:
           uniqueItems: true
           ui:widget: checkboxes
 
-    - title: Add developers to workspace access
-      required:
-        - username
-        - groupname
-      properties:
-        username:
-          title: Developer UserID
-          type: string
-          description: Provide username to add to group
-          ui:autofocus: true
-          ui:options:
-            rows: 5
-        groupname:
-          title: Group Name
-          type: string
-          description: Provide group name to which user will be added
-          enum:
-            - Wipro-Group-A
-            - Wipro-Group-B
+    # - title: Add developers to workspace access
+    #   required:
+    #     - developerId
+    #     - groupname
+    #   properties:
+    #     developerId:
+    #       title: Developer UserID
+    #       type: string
+    #       description: Provide username to add to group
+    #       ui:autofocus: true
+    #       ui:options:
+    #         rows: 5
+    #     groupname:
+    #       title: Group Name
+    #       type: string
+    #       description: Provide group name to which user will be added
+    #       enum:
+    #         - Wipro-Group-A
+    #         - Wipro-Group-B
 
 
   # These steps are executed in the scaffolder backend, using data that we gathered
