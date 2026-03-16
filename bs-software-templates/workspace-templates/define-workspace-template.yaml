@@ -213,7 +213,7 @@ spec:
                 # Handy: keep the container interactive by default
                 CMD ["/bin/bash"]
     
-    - title: Repository Details
+    - title: Git Repository Details
       required:
         - repoUrl
         - repoName
