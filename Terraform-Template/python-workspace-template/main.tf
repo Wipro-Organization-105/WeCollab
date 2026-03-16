@@ -29,28 +29,26 @@ provider "kubernetes" {
 #    name      = "wcd-sa-role"
 #    namespace = data.kubernetes_namespace.dev.metadata[0].name
 #  }
-
-  # Allow discovering pods
-  rule {
-    api_groups = [""]
-    resources  = ["pods"]
-    verbs      = ["get", "list", "watch"]
-  }
-
-  # Allow exec into pods
-  rule {
-    api_groups = [""]
-    resources  = ["pods/exec"]
-    verbs      = ["create", "get"]
-  }
+#
+#  rule {
+#    api_groups = [""]
+#    resources  = ["pods"]
+#    verbs      = ["get", "list", "watch"]
+#  }
+#
+#  rule {
+#    api_groups = [""]
+#    resources  = ["pods/exec"]
+#    verbs      = ["create", "get"]
+#  }
 
   # Allow attaching to running container process
-  rule {
-    api_groups = [""]
-    resources  = ["pods/attach"]
-    verbs      = ["create"]
-  }
-}
+#  rule {
+#    api_groups = [""]
+#    resources  = ["pods/attach"]
+#    verbs      = ["create"]
+#  }
+#}
 
 resource "kubernetes_role_binding" "wcd_sa_rolebinding" {
   metadata {
