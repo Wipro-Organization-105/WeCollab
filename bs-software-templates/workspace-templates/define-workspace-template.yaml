@@ -14,6 +14,8 @@ spec:
     - title: Workspace Template Configuration
       required:
         - templateName
+        - userName
+        - userPassword
       properties:
         templateName:
           title: Template Name
@@ -22,14 +24,24 @@ spec:
           ui:autofocus: true
           ui:options:
             rows: 5
+        userName:
+          title: Repo Username
+          type: string
+          description: Provide username for repository access
+        userPassword:
+          title: Repo Token
+          type: string
+          description: Provide token for repository access
+          ui:field: password
+        
     - title: Image Repo Info
       required:
         - imageRegistry
         - imageRepo
         - imageName
-        - imageTag
-        - repoUser
-        - repoPass
+        # - imageTag
+        # - repoUser
+        # - repoPass
       properties:
         imageRegistry:
           title: Image Registry
@@ -49,31 +61,31 @@ spec:
         imageName:
           title: Image Name
           type: string
-          description: Provide image name
+          description: Provide image name (e.g. workspace:v1)
           ui:autofocus: true
           ui:options:
             rows: 5
-        imageTag:
-          title: Image Tag
-          type: string
-          description: Provide image tag
-          default: latest
-          ui:autofocus: true
-          ui:options:
-            rows: 5
-        repoUser:
-          title: User Id for Image Registry
-          type: string
-          description: Provide username for image registry
-          ui:autofocus: true
-          ui:options:
-            rows: 5
-        repoPass:
-          title: Password for Image Registry
-          type: string
-          description: Provide password for image registry
-          ui:field: password
-          ui:autofocus: true
+        # imageTag:
+        #   title: Image Tag
+        #   type: string
+        #   description: Provide image tag
+        #   default: latest
+        #   ui:autofocus: true
+        #   ui:options:
+        #     rows: 5
+        # repoUser:
+        #   title: User Id for Image Registry
+        #   type: string
+        #   description: Provide username for image registry
+        #   ui:autofocus: true
+        #   ui:options:
+        #     rows: 5
+        # repoPass:
+        #   title: Password for Image Registry
+        #   type: string
+        #   description: Provide password for image registry
+        #   ui:field: password
+        #   ui:autofocus: true
     - title: Configure Dockerfile
       required:
         - dockerfile
@@ -195,9 +207,9 @@ spec:
         - repoUrl
         - repoName
         - repoOrg
-        - gitUser
-        - gitUserEmail
-        - gitToken
+        # - gitUser
+        # - gitUserEmail
+        # - gitToken
       properties:
         repoUrl:
           title: Git Repository URL
@@ -220,27 +232,27 @@ spec:
           ui:autofocus: true
           ui:options:
             rows: 5
-        gitUser:
-          title: Git Username
-          type: string
-          description: Provide username for git operations
-          ui:autofocus: true
-          ui:options:
-            rows: 5
-        gitUserEmail:
-          title: Git User Email
-          type: string
-          description: Provide email associated with the git username
-          ui:autofocus: true
-          ui:options:
-            rows: 5
-        gitToken:
-          title: Git Token
-          type: string
-          description: Provide token for git operations
-          ui:autofocus: true
-          ui:options:
-            rows: 5
+        # gitUser:
+        #   title: Git Username
+        #   type: string
+        #   description: Provide username for git operations
+        #   ui:autofocus: true
+        #   ui:options:
+        #     rows: 5
+        # gitUserEmail:
+        #   title: Git User Email
+        #   type: string
+        #   description: Provide email associated with the git username
+        #   ui:autofocus: true
+        #   ui:options:
+        #     rows: 5
+        # gitToken:
+        #   title: Git Token
+        #   type: string
+        #   description: Provide token for git operations
+        #   ui:autofocus: true
+        #   ui:options:
+        #     rows: 5
     
     - title: Select Required IDE Extensions
       required:
@@ -261,13 +273,13 @@ spec:
           uniqueItems: true
           ui:widget: checkboxes
 
-    - title: Provide User and Group for Workspace Access
+    - title: Add developers to workspace access
       required:
         - username
         - groupname
       properties:
         username:
-          title: Username
+          title: Developer UserID
           type: string
           description: Provide username to add to group
           ui:autofocus: true
@@ -301,12 +313,12 @@ spec:
       input:
         url: https://github.com/Wipro-Organization-105/WeCollab/tree/main/Terraform-Template/python-workspace-template
         values:        
-           imageName: "${{ parameters.imageRegistry }}/${{ parameters.imageRepo }}/${{ parameters.imageName }}:${{ parameters.imageTag }}"
+           imageName: "${{ parameters.imageRegistry }}/${{ parameters.imageRepo }}/${{ parameters.imageName }}"
            dockerfile: "${{ parameters.dockerfile }}"
            groupname: "${{ parameters.groupname }}"
-           gitUser: "${{ parameters.gitUser }}"
-           gitUserEmail: "${{ parameters.gitUserEmail }}"
-           gitToken: "${{ parameters.gitToken }}"
+           gitUser: "${{ parameters.userName }}"
+          #  gitUserEmail: "${{ parameters.gitUserEmail }}"
+           gitToken: "${{ parameters.userPassword }}"
            extensions: "${{ parameters.extensions }}"
     # This step publishes the contents of the working directory to GitHub.
     # If you or your organization prefer another default branch name over 'main'
@@ -328,9 +340,9 @@ spec:
         workflowId: image-build.yaml
         branchOrTagName: main
         workflowInputs:
-          imageName: "${{ parameters.imageRegistry }}/${{ parameters.imageRepo }}/${{ parameters.imageName }}:${{ parameters.imageTag }}"
-          repoUser: "${{ parameters.repoUser }}"
-          repoPass: "${{ parameters.repoPass }}"
+          imageName: "${{ parameters.imageRegistry }}/${{ parameters.imageRepo }}/${{ parameters.imageName }}"
+          repoUser: "${{ parameters.userName }}"
+          repoPass: "${{ parameters.userPassword }}"
       
     # Trigger the workflow to update wecollab repo to make Terraform template available to users after workspace creation
     - id: trigger-workflow

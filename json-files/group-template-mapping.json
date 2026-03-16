@@ -7,8 +7,7 @@
   "groupTemplateMap": {
     "Wipro-Group-A": {
       "path": [
-        "python/main.tf",
-        "yocto-template/main.tf"
+        "python/main.tf"
       ],
       "branch": "main",
       "description": "Default Python Terraform template"

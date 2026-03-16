@@ -12,23 +12,23 @@ terraform {
 }
 
 provider "kubernetes" {
-  config_path = ".kube/config"
+  config_path = "~/.kube/config"
 }
 
 
 
-resource "kubernetes_service_account" "wcd_sa" {
-  metadata {
-    name      = "wcd-sa"
-    namespace = data.kubernetes_namespace.dev.metadata[0].name
-  }
-}
+#resource "kubernetes_service_account" "wcd_sa" {
+#  metadata {
+#    name      = "wcd-sa"
+#    namespace = data.kubernetes_namespace.dev.metadata[0].name
+#  }
+#}
 
-resource "kubernetes_role" "wcd_sa_role" {
-  metadata {
-    name      = "wcd-sa-role"
-    namespace = data.kubernetes_namespace.dev.metadata[0].name
-  }
+#resource "kubernetes_role" "wcd_sa_role" {
+#  metadata {
+#    name      = "wcd-sa-role"
+#    namespace = data.kubernetes_namespace.dev.metadata[0].name
+#  }
 
   # Allow discovering pods
   rule {

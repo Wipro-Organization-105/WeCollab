@@ -44,7 +44,7 @@ jobs:
         run: |
           cd destination-repo
           git config user.name "${{ values.gitUser }}"
-          git config user.email "${{ values.gitUserEmail }}"
+          git config user.email "kamlesh.kumarsingh@wipro.com"
           git add .
           git commit -m "Update Terraform template"
           git push origin HEAD:main
