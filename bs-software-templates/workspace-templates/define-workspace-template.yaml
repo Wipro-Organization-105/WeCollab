@@ -333,7 +333,7 @@ spec:
     
     # Trigger the image build workflow after publishing the repo
     - id: trigger-workflow
-      name: Trigger GitHub Actions workflow
+      name: Trigger Image Build Pipeline
       action: github:actions:dispatch
       input:
         repoUrl: "${{parameters.repoUrl}}?repo=${{ parameters.repoName }}&owner=${{ parameters.repoOrg }}" 
@@ -346,7 +346,7 @@ spec:
       
     # Trigger the workflow to update wecollab repo to make Terraform template available to users after workspace creation
     - id: trigger-workflow
-      name: Trigger GitHub Actions workflow
+      name: Trigger Add Developers to WeCollab Templates Pipeline
       action: github:actions:dispatch
       input:
         repoUrl: "github.com?repo=${{ parameters.repoName }}&owner=${{ parameters.repoOrg }}" 
