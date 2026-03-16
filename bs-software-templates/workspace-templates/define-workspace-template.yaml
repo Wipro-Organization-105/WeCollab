@@ -33,7 +33,6 @@ spec:
           title: Repo Token
           type: string
           description: Provide token for repository access
-          ui:field: password
           ui:autofocus: true
           ui:options:
             rows: 5
