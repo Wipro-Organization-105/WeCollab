@@ -17,57 +17,57 @@ provider "kubernetes" {
 
 
 
-#resource "kubernetes_service_account" "wcd_sa" {
+# resource "kubernetes_service_account" "wcd_sa" {
 #  metadata {
 #    name      = "wcd-sa"
 #    namespace = data.kubernetes_namespace.dev.metadata[0].name
 #  }
-#}
+# }
 
-#resource "kubernetes_role" "wcd_sa_role" {
+# resource "kubernetes_role" "wcd_sa_role" {
 #  metadata {
 #    name      = "wcd-sa-role"
 #    namespace = data.kubernetes_namespace.dev.metadata[0].name
 #  }
-#
+
 #  rule {
 #    api_groups = [""]
 #    resources  = ["pods"]
 #    verbs      = ["get", "list", "watch"]
 #  }
-#
+
 #  rule {
 #    api_groups = [""]
 #    resources  = ["pods/exec"]
 #    verbs      = ["create", "get"]
 #  }
 
-  # Allow attaching to running container process
+#   Allow attaching to running container process
 #  rule {
 #    api_groups = [""]
 #    resources  = ["pods/attach"]
 #    verbs      = ["create"]
 #  }
-#}
+# }
 
-resource "kubernetes_role_binding" "wcd_sa_rolebinding" {
-  metadata {
-    name      = "wcd-sa-rolebinding"
-    namespace = data.kubernetes_namespace.dev.metadata[0].name
-  }
+# resource "kubernetes_role_binding" "wcd_sa_rolebinding" {
+#  metadata {
+#    name      = "wcd-sa-rolebinding"
+#    namespace = data.kubernetes_namespace.dev.metadata[0].name
+#  }
 
-  role_ref {
-    api_group = "rbac.authorization.k8s.io"
-    kind      = "Role"
-    name      = kubernetes_role.wcd_sa_role.metadata[0].name
-  }
+#  role_ref {
+#    api_group = "rbac.authorization.k8s.io"
+#    kind      = "Role"
+#    name      = kubernetes_role.wcd_sa_role.metadata[0].name
+#  }
 
-  subject {
-    kind      = "ServiceAccount"
-    name      = kubernetes_service_account.wcd_sa.metadata[0].name
-    namespace = data.kubernetes_namespace.dev.metadata[0].name
-  }
-}
+#  subject {
+#    kind      = "ServiceAccount"
+#    name      = kubernetes_service_account.wcd_sa.metadata[0].name
+#    namespace = data.kubernetes_namespace.dev.metadata[0].name
+#  }
+# }
 
 
 
