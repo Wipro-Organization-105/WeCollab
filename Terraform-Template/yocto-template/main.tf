@@ -115,7 +115,7 @@ resource "kubernetes_pod" "workspace" {
     container {
       name  = "py-container"
       # image = "ghcr.io/yuvraj-bhupati/android-workspace:latest"
-      image = "ghcr.io/kksinghwipro04/yocto-dev-ws:v1"
+      image = "ghcr.io/kksinghwipro04/yocto-workspace-image:v1"
       image_pull_policy = "IfNotPresent"
 
 

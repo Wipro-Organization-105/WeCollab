@@ -8,6 +8,7 @@
     "Wipro-Group-A": {
       "path": [
         "python/main.tf",
+        "yocto-template/main.tf",
         "yocto-template/main.tf"
       ],
       "branch": "main",
