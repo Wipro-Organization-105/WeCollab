@@ -22,7 +22,7 @@
         },
         "Wipro-Admins": {
             "path": [
-                "new-android\\main.tf"
+                "new-android/main.tf"
             ]
         }
     }
