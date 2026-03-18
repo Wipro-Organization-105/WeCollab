@@ -8,7 +8,8 @@
         "Wipro-Group-A": {
             "path": [
                 "python/main.tf",
-                "yocto-template-test/main.tf"
+                "yocto-template-test/main.tf",
+                "abcd/abcd.tf"
             ],
             "branch": "main",
             "description": "Default Python Terraform template"
