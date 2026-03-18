@@ -1,24 +1,30 @@
 {
-  "repo": {
-    "provider": "github",
-    "url": "https://github.com/Wipro-Organization-105/WeCollab",
-    "defaultBranch": "main"
-  },
-  "groupTemplateMap": {
-    "Wipro-Group-A": {
-      "path": [
-        "python/main.tf",
-        "yocto-template-test/main.tf"
-      ],
-      "branch": "main",
-      "description": "Default Python Terraform template"
+    "repo": {
+        "provider": "github",
+        "url": "https://github.com/Wipro-Organization-105/WeCollab",
+        "defaultBranch": "main"
     },
-    "Wipro-Group-B": {
-      "path": [
-        "android/main.tf"
-      ],
-      "branch": "main",
-      "description": "Default Android Terraform template"
+    "groupTemplateMap": {
+        "Wipro-Group-A": {
+            "path": [
+                "python/main.tf",
+                "yocto-template-test/main.tf",
+                "abcd/abcd.tf"
+            ],
+            "branch": "main",
+            "description": "Default Python Terraform template"
+        },
+        "Wipro-Group-B": {
+            "path": [
+                "android/main.tf"
+            ],
+            "branch": "main",
+            "description": "Default Android Terraform template"
+        },
+        "Wipro-Admins": {
+            "path": [
+                "new-android/main.tf"
+            ]
+        }
     }
-  }
 }
