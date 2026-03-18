@@ -9,7 +9,8 @@
             "path": [
                 "python/main.tf",
                 "yocto-template-test/main.tf",
-                "pratik/main.tf"
+                "pratik/main.tf",
+                "pratik/main.txt"
             ],
             "branch": "main",
             "description": "Default Python Terraform template"
