@@ -11,7 +11,8 @@
                 "yocto-template-test/main.tf",
                 "pratik/main.tf",
                 "pratik/main.txt",
-                "ADAS/nothing.txt"
+                "ADAS/nothing.txt",
+                "ADAS/   nothing.txt"
             ],
             "branch": "main",
             "description": "Default Python Terraform template"
@@ -19,7 +20,8 @@
         "Wipro-Group-B": {
             "path": [
                 "android/main.tf",
-                "ADAS/nothing.txt"
+                "ADAS/nothing.txt",
+                "ADAS/   nothing.txt"
             ],
             "branch": "main",
             "description": "Default Android Terraform template"
@@ -27,7 +29,8 @@
         "Wipro-Admins": {
             "path": [
                 "new-android/main.tf",
-                "ADAS/nothing.txt"
+                "ADAS/nothing.txt",
+                "ADAS/   nothing.txt"
             ]
         }
     }
