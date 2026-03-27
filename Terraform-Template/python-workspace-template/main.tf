@@ -91,7 +91,8 @@ locals {
   base3 = trim(local.base2, "-.")
   safe_base_pre = length(local.base3) > 0 ? local.base3 : "ws"
   safe_base = substr(local.safe_base_pre, 0, 56)
-  pod_name = "${local.safe_base}-${random_string.suffix.result}"
+  pod_name = "${local.safe_base}-workspace"
+  pvc_name = "${local.safe_base}-pvc"
   app_label = substr(local.pod_name, 0, 63)
 }
 
@@ -100,6 +101,12 @@ data "kubernetes_namespace" "dev" {
   metadata { name = "dev-workspaces" }
 }
 
+# Use default storage class for PVC
+data "kubernetes_storage_class" "default" {
+  metadata { name = "local-path" }
+}
+
+# Pod resource specification
 resource "kubernetes_pod" "workspace" {
   metadata {
     name      = local.pod_name
@@ -136,9 +143,39 @@ resource "kubernetes_pod" "workspace" {
           memory = "1Gi"
         }
       }
+      volume_mount {
+        mount_path = "/home/wcd"
+        name       = "data"
+      }
+    }
+    volume {
+      name = "data"
+      persistent_volume_claim {
+        claim_name = local.pvc_name
+      }
     }
 
     restart_policy = "Always"
+  }
+}
+
+# PVC for workspace data persistence
+resource "kubernetes_persistent_volume_claim" "app_pvc" {
+  metadata {
+    name      = local.pvc_name
+    namespace = data.kubernetes_namespace.dev.metadata[0].name
+  }
+
+  spec {
+    access_modes = ["ReadWriteOnce"]
+
+    resources {
+      requests = {
+        storage = "2Gi"
+      }
+    }
+
+    storage_class_name = data.kubernetes_storage_class.default.metadata[0].name
   }
 }
 

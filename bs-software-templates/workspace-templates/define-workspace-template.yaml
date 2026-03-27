@@ -157,7 +157,7 @@ spec:
                 FROM ubuntu:22.04
 
                 ARG DEBIAN_FRONTEND=noninteractive
-                ARG USERNAME=builder
+                ARG USERNAME=wcd
                 ARG USER_UID=1000
                 ARG USER_GID=1000
 
@@ -200,15 +200,14 @@ spec:
                     chmod 0440 /etc/sudoers.d/${USERNAME}
 
                 USER ${USERNAME}
-                WORKDIR /work
+                WORKDIR /home/wcd
 
                 # Pre-create common directories for cache mounts
-                RUN mkdir -p /work/src /work/build /work/cache/downloads /work/cache/sstate
+                RUN mkdir -p /home/wcd/src /home/wcd/build /home/wcd/cache/downloads /home/wcd/cache/sstate
 
                 # These are just defaults; you typically override in conf/local.conf
-                ENV DL_DIR=/work/cache/downloads \
-                    SSTATE_DIR=/work/cache/sstate
-
+                ENV DL_DIR=/home/wcd/cache/downloads \
+                    SSTATE_DIR=/home/wcd/cache/sstate
                 # Handy: keep the container interactive by default
                 CMD ["/bin/bash"]
     
