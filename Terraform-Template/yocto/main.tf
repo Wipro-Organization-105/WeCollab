@@ -117,7 +117,7 @@ resource "kubernetes_pod" "workspace" {
   spec {
     container {
       name  = "workspace-container"
-      image = "docker pull ghcr.io/kksinghwipro04/yocto-workspace-demo:v1"
+      image = "ghcr.io/kksinghwipro04/yocto-workspace-demo:v1"
       image_pull_policy = "IfNotPresent"
 
 
