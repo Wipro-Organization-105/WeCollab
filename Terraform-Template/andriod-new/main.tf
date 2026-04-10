@@ -88,7 +88,7 @@ resource "kubernetes_pod" "workspace" {
         }
       }
       volume_mount {
-        mount_path = "/home/wcd"
+        mount_path = "/aosp"
         name       = "data"
       }
     }
