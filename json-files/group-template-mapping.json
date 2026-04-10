@@ -11,7 +11,7 @@
                 "yocto-template-test/main.tf",
                 "pratik/main.tf",
                 "pratik/main.txt",
-                "main.tf"
+                "yocto-demo-workspace/main.tf"
             ],
             "branch": "main",
             "description": "Default Python Terraform template"
