@@ -15,63 +15,11 @@ provider "kubernetes" {
   config_path = "~/.kube/config"
 }
 
-# resource "kubernetes_service_account" "wcd_sa" {
-#   metadata {
-#     name      = "wcd-sa"
-#     namespace = data.kubernetes_namespace.dev.metadata[0].name
-#   }
-# }
 
-# resource "kubernetes_role" "wcd_sa_role" {
-#   metadata {
-#     name      = "wcd-sa-role"
-#     namespace = data.kubernetes_namespace.dev.metadata[0].name
-#   }
-
-#   # Allow discovering pods
-#   rule {
-#     api_groups = [""]
-#     resources  = ["pods"]
-#     verbs      = ["get", "list", "watch"]
-#   }
-
-#   # Allow exec into pods
-#   rule {
-#     api_groups = [""]
-#     resources  = ["pods/exec"]
-#     verbs      = ["create", "get"]
-#   }
-
-#   # Allow attaching to running container process
-#   rule {
-#     api_groups = [""]
-#     resources  = ["pods/attach"]
-#     verbs      = ["create"]
-#   }
-# }
-
-# resource "kubernetes_role_binding" "wcd_sa_rolebinding" {
-#   metadata {
-#     name      = "wcd-sa-rolebinding"
-#     namespace = data.kubernetes_namespace.dev.metadata[0].name
-#   }
-
-#   role_ref {
-#     api_group = "rbac.authorization.k8s.io"
-#     kind      = "Role"
-#     name      = kubernetes_role.wcd_sa_role.metadata[0].name
-#   }
-
-#   subject {
-#     kind      = "ServiceAccount"
-#     name      = kubernetes_service_account.wcd_sa.metadata[0].name
-#     namespace = data.kubernetes_namespace.dev.metadata[0].name
-#   }
-# }
 
 variable "workspace_name" {
   type    = string
-  default = "yocto-workspace"
+  default = "andriod-workspace"
 }
 
 resource "random_string" "suffix" {
@@ -104,7 +52,6 @@ data "kubernetes_storage_class" "default" {
   metadata { name = "local-path" }
 }
 
-# Pod resource specification
 resource "kubernetes_pod" "workspace" {
   metadata {
     name      = local.pod_name
@@ -116,8 +63,8 @@ resource "kubernetes_pod" "workspace" {
 
   spec {
     container {
-      name  = "workspace-container"
-      image = "ghcr.io/kksinghwipro04/yocto-workspace-demo:v1"
+      name  = "android"
+      image = "ghcr.io/kksinghwipro04/andriod-workspace:v1"
       image_pull_policy = "IfNotPresent"
 
 
@@ -150,8 +97,7 @@ resource "kubernetes_pod" "workspace" {
       persistent_volume_claim {
         claim_name = local.pvc_name
       }
-    }
-
+     }
     restart_policy = "Always"
   }
 }
