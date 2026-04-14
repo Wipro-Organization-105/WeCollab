@@ -10,15 +10,13 @@
                 "python/main.tf",
                 "yocto-template-test/main.tf",
                 "pratik/main.txt",
-                "yocto-workspace/yocto-workspace.tf"
+                "yocto/yocto-workspace.tf"
             ],
             "branch": "main",
             "description": "Default Python Terraform template"
         },
         "Wipro-Group-B": {
-            "path": [
-                "android/main.tf"
-            ],
+            "path": [],
             "branch": "main",
             "description": "Default Android Terraform template"
         },
