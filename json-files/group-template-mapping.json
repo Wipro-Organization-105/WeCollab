@@ -16,7 +16,9 @@
             "description": "Default Python Terraform template"
         },
         "Wipro-Group-B": {
-            "path": [],
+            "path": [
+                "yocto/yocto-workspace.tf"
+            ],
             "branch": "main",
             "description": "Default Android Terraform template"
         },
