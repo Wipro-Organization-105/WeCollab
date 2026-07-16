@@ -19,6 +19,10 @@
     {
       "username": "dipankar-maitra-arch",
       "groups": ["Wipro-Group-A", "Wipro-Group-B", "Wipro-Admins"]
+    },
+    {
+      "username": "admin",
+      "groups": ["Wipro-HPC"]
     }
   ]
 }
