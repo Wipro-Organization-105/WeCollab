@@ -23,7 +23,7 @@
             "description": "Default Android Terraform template"
         },
 	"Wipro-HPC": {
-		"path" : [],
+		"path" : [ "hpc-team/android/main.tf" ],
 		"branch": "main",
 		"description": "HPC Team specific Terraform Templates"
 	},

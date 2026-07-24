@@ -2,27 +2,45 @@
   "users": [
     {
       "username": "sshashwat",
-      "groups": ["Wipro-Group-A", "Wipro-Group-B", "Wipro-Admins"]
+      "groups": [
+        "Wipro-Group-A",
+        "Wipro-Group-B",
+        "Wipro-Admins"
+      ]
     },
     {
       "username": "kksinghwipro04",
-      "groups": ["Wipro-Group-A", "Wipro-Group-B", "Wipro-Admins"]
+      "groups": [
+        "Wipro-Group-A",
+        "Wipro-Group-B",
+        "Wipro-Admins"
+      ]
     },
     {
       "username": "wipPratik",
-      "groups": ["Wipro-Admins"]
+      "groups": [
+        "Wipro-Admins"
+      ]
     },
     {
       "username": "yuvraj-bhupati",
-      "groups": ["Wipro-Group-B"]
+      "groups": [
+        "Wipro-Group-B"
+      ]
     },
     {
       "username": "dipankar-maitra-arch",
-      "groups": ["Wipro-Group-A", "Wipro-Group-B", "Wipro-Admins"]
+      "groups": [
+        "Wipro-Group-A",
+        "Wipro-Group-B",
+        "Wipro-Admins"
+      ]
     },
     {
-      "username": "admin",
-      "groups": ["Wipro-HPC"]
+      "username": "satyakam",
+      "groups": [
+        "Wipro-HPC"
+      ]
     }
   ]
 }
